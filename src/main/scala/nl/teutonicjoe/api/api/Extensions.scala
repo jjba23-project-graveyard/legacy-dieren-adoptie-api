@@ -1,0 +1,30 @@
+package nl.teutonicjoe.api.api
+
+import zio._
+import zio.json._
+import zio.http._
+import zio.http.model._
+
+private[api] object Extensions {
+
+  implicit class RichRequest(val request: Request) extends AnyVal {
+    def bodyAs[T: JsonDecoder]: IO[String, T] =
+      for {
+        body <- request.body.asString.orDie
+        t    <- ZIO.succeed(body.fromJson[T]).absolve
+      } yield t
+
+  }
+
+  implicit class RichDomain[T](val data: T) extends AnyVal {
+
+    def toResponseZIO(implicit ev: JsonEncoder[T]): UIO[Response] = toResponseZIO(Status.Ok)
+
+    def toResponseZIO(status: Status)(implicit ev: JsonEncoder[T]): UIO[Response] = ZIO.succeed {
+      Response.json(data.toJson).setStatus(status)
+    }
+
+    def asNoContentResponseZIO: UIO[Response] = ZIO.succeed(Response.status(Status.NoContent))
+  }
+
+}

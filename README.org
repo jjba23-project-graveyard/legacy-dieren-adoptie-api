@@ -1,0 +1,29 @@
+#+title: Dieren Adoptie API
+#+options: num:nil toc:nil
+
+* Dieren Adoptie API
+
+[[https://git.sr.ht/~teutonicjoe/honeybadger/blob/master/dist/scala.png]]
+
+RESTful API written in Scala, using ZIO, ZIO HTTP and MongoDB as storage engine. Plans to make use of ElasticSearch for my own practice, and for improved search functions also exist.
+
+** Running
+
+Run with ~sbt "~reStart"~ for a hot-reloading session, great for development.
+
+By default the server is started at ~http://localhost:8080~. It expects the MongoDB database at ~localhost:27117~ with
+database name ~dieren-adoptie~.
+
+** Testing
+
+TODO! Create and document testing.
+
+sbt test
+sbt it:test
+
+** Creating a docker image
+
+This project is configured with [[https://www.scala-sbt.org/sbt-native-packager/][sbt-native-packager]].
+To publish a docker image to your local docker repository run: ~sbt docker:publishLocal~
+
+This will create an image with name ~dieren-adoptie-api:<version>~.

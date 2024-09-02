@@ -1,0 +1,29 @@
+# Copyright © 2022 Josep Bigorra
+#
+# This file is part of Dieren Adoptie API.
+# Dieren Adoptie API is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation,
+#   either version 3 of the License, or (at your option) any later version.
+#
+# Dieren Adoptie API is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+#   without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with Foobar.
+# If not, see <https://www.gnu.org/licenses/>.
+
+version: "3.8"
+services:
+  dieren-adoptie-mongo:
+    image: mongo:6.0.5
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=dieren-adoptie-user
+      - MONGO_INITDB_ROOT_PASSWORD=dieren-adoptie-password
+      - MONGO_INITDB_DATABASE=dieren-adoptie
+    ports:
+      - "27117:27017"
+    volumes:
+      - dieren_adoptie_mongo_volume:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+volumes:
+  dieren_adoptie_mongo_volume:
